@@ -26,6 +26,8 @@ For a comprehensive guide on the migration process, please refer to our detailed
 
 ## Scripts
 
+You will find under the scripts folder a set of scripts that can be used to generate users, set up environments, and other utilities needed for reproducing the migration.
+
 ### Keycloak User Generation Script
 
 This specific script generates 50,000 Keycloak users in the `test` realm using the Keycloak API. The script creates users with some random attributes to avoid duplicates.
@@ -38,11 +40,10 @@ This specific script generates 50,000 Keycloak users in the `test` realm using t
 
 ### Setup
 
-1. **Clone the repository**
+1. **Access the directory**
 
    ```bash
-   git clone https://github.com/yourusername/your-repository-name.git
-   cd your-repository-name
+   cd scripts/users
    ```
 
 2. **Create and activate a virtual environment**
@@ -67,25 +68,29 @@ This specific script generates 50,000 Keycloak users in the `test` realm using t
    pip install -r requirements.txt
    ```
 
-### Configuration
+4. **Create/Update you .env file**
 
-Update the `create_keycloak_users.py` script with your Keycloak server configuration:
+   ```bash
+   cp .env.example .env
+   ```
 
-```python
-# Keycloak server configuration
-KEYCLOAK_URL = "http://localhost:8080"
-REALM = "test"
-CLIENT_ID = "admin-cli"
-USERNAME = "admin"
-PASSWORD = "admin"
-```
+   Create and/or update the `.env` file with your Keycloak server configuration. Here is an example of the `.env` file based on our stack:
+
+   ```bash
+   KEYCLOAK_URL = "http://localhost:8080"
+   REALM = "test"
+   CLIENT_ID = "admin-cli"
+   USERNAME = "admin"
+   PASSWORD = "admin"
+   TOTAL_USERS = 30000
+   ```
 
 ### Usage
 
 Run the script to start generating users:
 
 ```bash
-python create_keycloak_users.py
+python3 generate.py
 ```
 
 The script will authenticate with Keycloak, generate user data, and create 50,000 users in the specified realm. Progress will be printed every 100 users.
